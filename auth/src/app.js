@@ -17,6 +17,10 @@ class App extends Component {
       messagingSenderId: '871451442262',
       appId: '1:871451442262:web:499fc2f4713c80a4'
     });
+
+    firebase.auth().onAuthStateChanged(() => {
+
+    });
   }
 
   render() {
