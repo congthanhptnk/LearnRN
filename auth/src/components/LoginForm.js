@@ -6,27 +6,29 @@ import { Button, Card, CardSection, Input, Spinner } from './common';
 class LoginForm extends Component {
   state = { email: '', password: '', error: '', loading: false };
 
-  onButtonPress() {
+  onButtonPress = () => {
     const { email, password } = this.state;
 
     this.setState({ error: '', loading: true });
 
     firebase.auth().signInWithEmailAndPassword(email, password)
-      .then(this.onLoginSuccess.bind(this))
-      .catch(() => {
-        console.log('first fail');
+      .then(this.onLoginSuccess())
+      .catch((error1) => {
+        console.log('2l: ', error1);
         firebase.auth().createUserWithEmailAndPassword(email, password)
-          .then(this.onLoginSuccess.bind(this))
-          .catch(this.onLoginFail.bind(this));
+          .then(this.onLoginSuccess())
+          .catch((error2) => {
+            console.log('something really wrong: ', error2);
+            this.onLoginFail();
+          });
       });
   }
 
-  onLoginFail() {
+  onLoginFail = () => {
     this.setState({ error: 'Authentication Failed', loading: false });
   }
 
-  onLoginSuccess() {
-    console.log('something something');
+  onLoginSuccess = () => {
     this.setState({
       email: '',
       password: '',
@@ -37,14 +39,13 @@ class LoginForm extends Component {
 
   renderButton() {
     if (this.state.loading) {
-      return <Spinner size='small' />;
+      return <Spinner size="small" />;
     }
 
     return (
-      <Button
-        buttonText={'Login'}
-        onPress={this.onButtonPress.bind(this)}
-      />
+      <Button onPress={this.onButtonPress}>
+        Log in
+      </Button>
     );
   }
 
@@ -53,24 +54,24 @@ class LoginForm extends Component {
       <Card>
         <CardSection>
           <Input
-            placeholder="user@mail.com"
+            placeholder="user@gmail.com"
+            label="Email"
             value={this.state.email}
             onChangeText={email => this.setState({ email })}
-            label="Email"
           />
         </CardSection>
 
         <CardSection>
           <Input
+            secureTextEntry
             placeholder="password"
+            label="Password"
             value={this.state.password}
             onChangeText={password => this.setState({ password })}
-            label="Password"
-            secureTextEntry
           />
         </CardSection>
 
-        <Text style={styles.errorText}>
+        <Text style={styles.errorTextStyle}>
           {this.state.error}
         </Text>
 
@@ -83,7 +84,7 @@ class LoginForm extends Component {
 }
 
 const styles = {
-  errorText: {
+  errorTextStyle: {
     fontSize: 20,
     alignSelf: 'center',
     color: 'red'
