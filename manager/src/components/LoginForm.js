@@ -6,7 +6,26 @@ class LoginForm extends Component {
   render() {
     return (
       <Card>
-        <Text>HI</Text>
+        <CardSection>
+          <Input
+            label="email"
+            placeholder="email@email.com"
+          />
+        </CardSection>
+
+        <CardSection>
+          <Input
+            secureTextEntry
+            label="password"
+            placeholder="password"
+          />
+        </CardSection>
+
+        <CardSection>
+          <Button>
+            Login
+          </Button>
+        </CardSection>
       </Card>
     );
   }
