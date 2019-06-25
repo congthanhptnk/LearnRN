@@ -5,6 +5,7 @@
         "error", {
            "devDependencies": true
         }
-    ]
-    }
+    ],
+    "arrow-body-style": 0
+  }
 }
