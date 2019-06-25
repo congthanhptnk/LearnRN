@@ -5,6 +5,7 @@ import firebase from 'firebase';
 
 import { createStore } from 'redux';
 import reducers from './reducers';
+import { Header } from './components/common';
 import LoginForm from './components/LoginForm';
 
 class App extends Component {
@@ -26,6 +27,7 @@ class App extends Component {
     return (
       <Provider store={createStore(reducers)}>
         <View>
+          <Header headerText='Login Form' />
           <LoginForm />
         </View>
       </Provider>
